@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		575B8CB828F4886C00286081 /* Conecta4App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575B8CB728F4886C00286081 /* Conecta4App.swift */; };
-		575B8CBA28F4886C00286081 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575B8CB928F4886C00286081 /* ContentView.swift */; };
+		575B8CBA28F4886C00286081 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575B8CB928F4886C00286081 /* MainView.swift */; };
 		575B8CBC28F4886C00286081 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 575B8CBB28F4886C00286081 /* Assets.xcassets */; };
 		575B8CBF28F4886C00286081 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 575B8CBE28F4886C00286081 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -16,7 +16,7 @@
 /* Begin PBXFileReference section */
 		575B8CB428F4886C00286081 /* Conecta4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Conecta4.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		575B8CB728F4886C00286081 /* Conecta4App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conecta4App.swift; sourceTree = "<group>"; };
-		575B8CB928F4886C00286081 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		575B8CB928F4886C00286081 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		575B8CBB28F4886C00286081 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		575B8CBE28F4886C00286081 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -52,7 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				575B8CB728F4886C00286081 /* Conecta4App.swift */,
-				575B8CB928F4886C00286081 /* ContentView.swift */,
+				575B8CB928F4886C00286081 /* MainView.swift */,
 				575B8CBB28F4886C00286081 /* Assets.xcassets */,
 				575B8CBD28F4886C00286081 /* Preview Content */,
 			);
@@ -137,7 +137,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				575B8CBA28F4886C00286081 /* ContentView.swift in Sources */,
+				575B8CBA28F4886C00286081 /* MainView.swift in Sources */,
 				575B8CB828F4886C00286081 /* Conecta4App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

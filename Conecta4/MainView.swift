@@ -85,6 +85,33 @@ struct MainView: View {
             
             Spacer()
             
+            // Buttons zone
+            HStack(spacing: 30){
+                Button(action: {}) {
+                    HStack(spacing: 0) {
+                        Image(systemName: "arrow.clockwise")
+                        Text("Restart")
+                            .padding(.horizontal)
+                    }
+                }
+                .padding()
+                .foregroundColor(Color("textColor"))
+                .background(Color("bgButton"))
+                .cornerRadius(.infinity)
+                
+                Button(action: {}) {
+                    HStack(spacing: 0) {
+                        Image(systemName: "paintbrush")
+                        Text("Clear")
+                            .padding(.horizontal)
+                    }
+                }
+                .padding()
+                .foregroundColor(Color("textColor"))
+                .background(Color("bgButton"))
+                .cornerRadius(.infinity)
+            }
+            
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(Color("bgColor"))

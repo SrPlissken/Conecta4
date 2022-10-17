@@ -33,7 +33,7 @@ struct MainView: View {
                     .font(.system(size: 30, design: .monospaced))
                     .foregroundColor(Color("textColor"))
                 
-                ChipTemplate(chipColor: Color("redChip"))
+                ChipTemplate(chipColor: Color("redChip"), size: 50)
             }
             .padding(.top, 20)
             
@@ -42,6 +42,49 @@ struct MainView: View {
             
             // Board
             BoardTemplate(rows: MainView.BOARD_HEIGHT, cols: MainView.BOARD_WIDTH)
+            
+            // ScoreZone
+            HStack{
+                HStack{
+                    ChipTemplate(chipColor: Color("redChip"), size: 20)
+                    Text("Player 1")
+                        .fontWeight(.semibold)
+                        .font(.system(size: 16, design: .monospaced))
+                        .foregroundColor(Color("textColor"))
+                }
+                .frame(maxWidth: .infinity)
+                
+                HStack(spacing: 2) {
+                    Text("0")
+                        .fontWeight(.heavy)
+                        .font(.system(size: 16, design: .monospaced))
+                        .foregroundColor(Color("textColor"))
+                    Text(":")
+                        .fontWeight(.heavy)
+                        .font(.system(size: 16, design: .monospaced))
+                        .foregroundColor(Color("textColor"))
+                    Text("0")
+                        .fontWeight(.heavy)
+                        .font(.system(size: 16, design: .monospaced))
+                        .foregroundColor(Color("textColor"))
+                }
+                .frame(width: 90)
+                
+                HStack{
+                    Text("Player 2")
+                        .fontWeight(.semibold)
+                        .font(.system(size: 16, design: .monospaced))
+                        .foregroundColor(Color("textColor"))
+                    ChipTemplate(chipColor: Color("yellowChip"), size: 20)
+                    
+                }
+                .frame(maxWidth: .infinity)
+            }
+            .frame(maxWidth: .infinity)
+            .padding([.leading, .trailing], 6)
+            
+            Spacer()
+            
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(Color("bgColor"))
@@ -51,16 +94,17 @@ struct MainView: View {
 // Chip pattern
 struct ChipTemplate: View {
     let chipColor: Color
+    let size: CGFloat
     var body: some View {
         ZStack {
             Circle()
                 .fill(chipColor.opacity(0.7))
-                .frame(width: 60, height: 60)
+                .frame(width: size + 10, height: size + 10)
             Circle()
                 .fill(chipColor)
-                .frame(width: 50, height: 50)
+                .frame(width: size, height: size)
         }
-        .frame(width: 60, height: 60)
+        .frame(width: size + 10, height: size + 10)
     }
 }
 

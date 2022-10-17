@@ -8,8 +8,15 @@
 import SwiftUI
 
 struct MainView: View {
+    
+    // Define board size
+    static let BOARD_WIDTH = 7
+    static let BOARD_HEIGHT = 6
+    
+    
     var body: some View {
         VStack(spacing: 10) {
+            // Title
             HStack {
                 Text("Conecta 4")
                     .fontWeight(.heavy)
@@ -19,6 +26,7 @@ struct MainView: View {
             
             Divider()
             
+            // Chip turn
             VStack(spacing: 10) {
                 Text("Turno 1")
                     .fontWeight(.medium)
@@ -28,6 +36,12 @@ struct MainView: View {
                 ChipTemplate(chipColor: Color("redChip"))
             }
             .padding(.top, 20)
+            
+            Spacer()
+                .frame(height: 10)
+            
+            // Board
+            BoardTemplate(rows: MainView.BOARD_HEIGHT, cols: MainView.BOARD_WIDTH)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(Color("bgColor"))
@@ -50,10 +64,34 @@ struct ChipTemplate: View {
     }
 }
 
+// Board template
+struct BoardTemplate: View {
+    // Board size
+    let rows: Int
+    let cols: Int
+    
+    var body: some View {
+        Grid {
+            ForEach(0..<rows, id:\.self) { row in
+                GridRow {
+                    ForEach(0..<cols, id:\.self) { col in
+                        Circle()
+                            .fill(Color("emptyChip"))
+                    }
+                }
+            }
+        }
+        .padding(6)
+        .background(Color("bgBoard"))
+        .frame(maxWidth: .infinity)
+        .cornerRadius(16)
+        .padding()
+    }
+}
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
     }
 }
-
 

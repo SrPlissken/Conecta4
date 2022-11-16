@@ -9,10 +9,8 @@ import SwiftUI
 
 struct MainView: View {
     
-    // Define board size
-    static let BOARD_WIDTH = 7
-    static let BOARD_HEIGHT = 6
-    
+    // ViewModel
+    let viewModel: MainViewModel = .init()
     
     var body: some View {
         VStack(spacing: 10) {
@@ -40,8 +38,23 @@ struct MainView: View {
             Spacer()
                 .frame(height: 10)
             
+            // Chip entry
+            HStack(spacing: 32) {
+                ForEach(0..<viewModel.BOARD_WIDTH, id:\.self) { col in
+                    Image(systemName: "chevron.down")
+                        .bold()
+                        .onTapGesture {
+                            // Add chip to board
+                            viewModel.addChipToBoard()
+                        }
+                }
+            }
+                .frame(maxWidth: .infinity)
+                .padding([.leading, .trailing], 18)
+                .padding([.bottom], -15)
+            
             // Board
-            BoardTemplate(rows: MainView.BOARD_HEIGHT, cols: MainView.BOARD_WIDTH)
+            BoardTemplate(viewModel: viewModel)
             
             // ScoreZone
             HStack{
@@ -137,17 +150,26 @@ struct ChipTemplate: View {
 
 // Board template
 struct BoardTemplate: View {
-    // Board size
-    let rows: Int
-    let cols: Int
+    // Viewmodel
+    let viewModel: MainViewModel
     
     var body: some View {
         Grid {
-            ForEach(0..<rows, id:\.self) { row in
+            ForEach(0..<viewModel.board.count, id: \.self) { col in
                 GridRow {
-                    ForEach(0..<cols, id:\.self) { col in
-                        Circle()
-                            .fill(Color("emptyChip"))
+                    ForEach(0..<viewModel.board[col].count, id:\.self) {row in
+                        // Chip color selection
+                        switch viewModel.board[col][row] {
+                        case MainViewModel.ChipType.red:
+                            Circle()
+                                .fill(Color("redChip"))
+                        case MainViewModel.ChipType.yellow:
+                            Circle()
+                                .fill(Color("yellowChip"))
+                        default:
+                            Circle()
+                                .fill(Color("emptyChip"))
+                        }
                     }
                 }
             }

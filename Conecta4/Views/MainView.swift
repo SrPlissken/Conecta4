@@ -10,7 +10,7 @@ import SwiftUI
 struct MainView: View {
     
     // ViewModel
-    let viewModel: MainViewModel = .init()
+    @ObservedObject var viewModel: MainViewModel = .init()
     
     var body: some View {
         VStack(spacing: 10) {
@@ -26,12 +26,12 @@ struct MainView: View {
             
             // Chip turn
             VStack(spacing: 10) {
-                Text("Turno 1")
+                Text("Turno \(viewModel.currentTurn)")
                     .fontWeight(.medium)
                     .font(.system(size: 30, design: .monospaced))
                     .foregroundColor(Color("textColor"))
                 
-                ChipTemplate(chipColor: Color("redChip"), size: 50)
+                ChipTemplate(chipColor: viewModel.currentChipColor, size: 50)
             }
             .padding(.top, 20)
             
@@ -45,7 +45,7 @@ struct MainView: View {
                         .bold()
                         .onTapGesture {
                             // Add chip to board
-                            viewModel.addChipToBoard()
+                            viewModel.addChipToBoard(chipColumn: col)
                         }
                 }
             }
@@ -151,15 +151,15 @@ struct ChipTemplate: View {
 // Board template
 struct BoardTemplate: View {
     // Viewmodel
-    let viewModel: MainViewModel
+    @ObservedObject var viewModel: MainViewModel
     
     var body: some View {
         Grid {
-            ForEach(0..<viewModel.board.count, id: \.self) { col in
+            ForEach(0..<viewModel.board.count, id: \.self) { row in
                 GridRow {
-                    ForEach(0..<viewModel.board[col].count, id:\.self) {row in
+                    ForEach(0..<viewModel.board[row].count, id:\.self) { col in
                         // Chip color selection
-                        switch viewModel.board[col][row] {
+                        switch viewModel.board[row][col] {
                         case MainViewModel.ChipType.red:
                             Circle()
                                 .fill(Color("redChip"))

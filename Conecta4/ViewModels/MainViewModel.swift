@@ -42,19 +42,35 @@ class MainViewModel: ObservableObject {
     
     // Add chip to board
     func addChipToBoard(chipColumn: Int) {
+        // Var control
+        var isWin: Bool = false
+        var allowSwap = false
         for row in 0..<board.count {
             // Checks if there is a chip, then add chip on top
             if row != 0 && board[row][chipColumn] != ChipType.empty {
+                // First row cannot be filled if chip exist
+                if board[row - 1][chipColumn] != ChipType.empty {
+                    break
+                }
                 board[row - 1][chipColumn] = currentChipType
+                isWin = checkWin(currentRow: row - 1)
+                allowSwap = true
                 break
             }
             // Last row needs to filled with chip
             else if row == board.count - 1 {
                 board[row][chipColumn] = currentChipType
+                isWin = checkWin(currentRow: row)
+                allowSwap = true
             }
         }
-        // Change turn
-        swapChipTurn()
+        // Check win or allow change
+        if isWin {
+            print("Win!")
+        }
+        else if allowSwap{
+            swapChipTurn()
+        }
     }
     
     // Swap chip turn
@@ -70,6 +86,31 @@ class MainViewModel: ObservableObject {
             currentChipType = .red
         }
         currentTurn += 1
+    }
+    
+    // Check if player win
+    func checkWin(currentRow: Int) -> Bool {
+        var isWin = checkHorizontalWin(currentRow: currentRow)
+        return isWin
+    }
+    
+    // Check if player wins horizontal game
+    func checkHorizontalWin(currentRow: Int) -> Bool {
+        var ocurrences = 0
+        for element in 0..<board[currentRow].count {
+            if board[currentRow][element] != currentChipType {
+                ocurrences = 0
+                continue
+            }
+            else {
+                ocurrences += 1
+                // Check for win
+                if ocurrences == 4 {
+                    return true
+                }
+            }
+        }
+        return false
     }
     
 }

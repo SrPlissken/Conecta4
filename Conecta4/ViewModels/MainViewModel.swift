@@ -13,6 +13,8 @@ class MainViewModel: ObservableObject {
     // Define board size
     let BOARD_WIDTH = 7
     let BOARD_HEIGHT = 6
+    // Max ocurrences for win
+    let OCURRENCES_LIMIT = 4
     
     // Store current chip type and color
     @Published var currentChipType = ChipType.red
@@ -53,14 +55,14 @@ class MainViewModel: ObservableObject {
                     break
                 }
                 board[row - 1][chipColumn] = currentChipType
-                isWin = checkWin(currentRow: row - 1)
+                isWin = checkWin(currentRow: row - 1, currentCol: chipColumn)
                 allowSwap = true
                 break
             }
             // Last row needs to filled with chip
             else if row == board.count - 1 {
                 board[row][chipColumn] = currentChipType
-                isWin = checkWin(currentRow: row)
+                isWin = checkWin(currentRow: row, currentCol: chipColumn)
                 allowSwap = true
             }
         }
@@ -89,9 +91,10 @@ class MainViewModel: ObservableObject {
     }
     
     // Check if player win
-    func checkWin(currentRow: Int) -> Bool {
-        var isWin = checkHorizontalWin(currentRow: currentRow)
-        return isWin
+    func checkWin(currentRow: Int, currentCol: Int) -> Bool {
+        let isWinH = checkHorizontalWin(currentRow: currentRow)
+        let isWinV = checkVerticalWin(currentRow: currentRow, currentCol: currentCol)
+        return isWinH || isWinV
     }
     
     // Check if player wins horizontal game
@@ -105,7 +108,26 @@ class MainViewModel: ObservableObject {
             else {
                 ocurrences += 1
                 // Check for win
-                if ocurrences == 4 {
+                if ocurrences == OCURRENCES_LIMIT {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    // Check if player wins vertical game
+    func checkVerticalWin(currentRow: Int, currentCol: Int) -> Bool {
+        var ocurrences = 0
+        for row in currentRow..<board.count {
+            if board[row][currentCol] != currentChipType {
+                ocurrences = 0
+                continue
+            }
+            else {
+                ocurrences += 1
+                // Check for win
+                if ocurrences == OCURRENCES_LIMIT {
                     return true
                 }
             }

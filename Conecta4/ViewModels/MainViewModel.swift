@@ -94,7 +94,9 @@ class MainViewModel: ObservableObject {
     func checkWin(currentRow: Int, currentCol: Int) -> Bool {
         let isWinH = checkHorizontalWin(currentRow: currentRow)
         let isWinV = checkVerticalWin(currentRow: currentRow, currentCol: currentCol)
-        return isWinH || isWinV
+        let isWinD = checkDiagonalWin(currentRow: currentRow, currentCol: currentCol)
+        let isWinDInv = checkDiagonalWinInv(currentRow: currentRow, currentCol: currentCol)
+        return isWinH || isWinV || isWinD || isWinDInv
     }
     
     // Check if player wins horizontal game
@@ -132,6 +134,102 @@ class MainViewModel: ObservableObject {
                 }
             }
         }
+        return false
+    }
+    
+    // Check if player wins with diagonal game
+    func checkDiagonalWin(currentRow: Int, currentCol: Int) -> Bool {
+        var matchCol = currentCol
+        var ocurrences = 0
+        // Start looking ascendant
+        for row in (0...currentRow).reversed() {
+            if board[row][matchCol] != currentChipType {
+                matchCol += 1
+                break
+            }
+            else {
+                ocurrences += 1
+                // Check for win
+                if ocurrences == OCURRENCES_LIMIT {
+                    return true
+                }
+            }
+            // Next col
+            matchCol += 1
+            if matchCol > board[row].count - 1 {
+                break
+            }
+        }
+        
+        // Start looking descendant
+        matchCol = currentCol - 1
+        for row in currentRow + 1..<board.count {
+            if matchCol < 0 || board[row][matchCol] != currentChipType {
+                matchCol -= 1
+                break
+            }
+            else {
+                ocurrences += 1
+                // Check for win
+                if ocurrences == OCURRENCES_LIMIT {
+                    return true
+                }
+            }
+            // Next col
+            matchCol -= 1
+        }
+        
+        return false
+    }
+    
+    // Check if player wins with inverse diagonal game
+    func checkDiagonalWinInv(currentRow: Int, currentCol: Int) -> Bool {
+        var matchCol = currentCol
+        var ocurrences = 0
+        // Start looking ascendant
+        for row in (0...currentRow).reversed() {
+            if matchCol < 0 || board[row][matchCol] != currentChipType {
+                matchCol -= 1
+                break
+            }
+            else {
+                ocurrences += 1
+                // Check for win
+                if ocurrences == OCURRENCES_LIMIT {
+                    return true
+                }
+            }
+            // Next col
+            matchCol -= 1
+        }
+        
+        // Start looking descendant
+        if currentCol != board[currentRow].count - 1 {
+            matchCol = currentCol + 1
+        }
+        else {
+            matchCol = currentCol
+        }
+        
+        for row in currentRow + 1..<board.count {
+            if board[row][matchCol] != currentChipType {
+                matchCol += 1
+                break
+            }
+            else {
+                ocurrences += 1
+                // Check for win
+                if ocurrences == OCURRENCES_LIMIT {
+                    return true
+                }
+            }
+            // Next col
+            matchCol += 1
+            if matchCol > board[row].count - 1 {
+                break
+            }
+        }
+        
         return false
     }
     

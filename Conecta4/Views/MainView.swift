@@ -102,7 +102,9 @@ struct MainView: View {
             
             // Buttons zone
             HStack(spacing: 30){
-                Button(action: {}) {
+                Button(action: {
+                    viewModel.restartCurrentGame()
+                }) {
                     HStack(spacing: 0) {
                         Image(systemName: "arrow.clockwise")
                         Text("Restart")

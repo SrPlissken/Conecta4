@@ -39,6 +39,11 @@ class MainViewModel: ObservableObject {
     
     // Constructor
     init() {
+        initEmptyBoard()
+    }
+    
+    // Init an empty board
+    private func initEmptyBoard() {
         // Start fill board with empty chips
         for i in 0..<BOARD_HEIGHT {
             board.append([ChipType]())
@@ -243,6 +248,25 @@ class MainViewModel: ObservableObject {
         }
         
         return false
+    }
+    
+    // Allow to restart current game
+    func restartCurrentGame() {
+        // Reset board
+        board = []
+        initEmptyBoard()
+        
+        // If game ends, start next player
+        if gameEnded {
+            swapChipTurn()
+            gameEnded = false
+        }
+        else {
+            currentChipType = .red
+            currentChipColor = Color("redChip")
+        }
+        // Reset turn
+        currentTurn = 0
     }
     
 }

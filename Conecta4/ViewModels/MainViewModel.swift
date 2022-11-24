@@ -15,6 +15,8 @@ class MainViewModel: ObservableObject {
     let BOARD_HEIGHT = 6
     // Max ocurrences for win
     let OCURRENCES_LIMIT = 4
+    // Save game state
+    var gameEnded = false
     
     // Store current chip type and color
     @Published var currentChipType = ChipType.red
@@ -22,6 +24,10 @@ class MainViewModel: ObservableObject {
     
     // Track current tuen
     @Published var currentTurn: Int = 1
+    
+    // Track player points
+    @Published var redScore = 0
+    @Published var yellowScore = 0
     
     // Chip types
     enum ChipType {
@@ -68,7 +74,13 @@ class MainViewModel: ObservableObject {
         }
         // Check win or allow change
         if isWin {
-            print("Win!")
+            gameEnded = true
+            if currentChipType == .red {
+                redScore += 1
+            }
+            else {
+                yellowScore += 1
+            }
         }
         else if allowSwap{
             swapChipTurn()

@@ -45,7 +45,9 @@ struct MainView: View {
                         .bold()
                         .onTapGesture {
                             // Add chip to board
-                            viewModel.addChipToBoard(chipColumn: col)
+                            if !viewModel.gameEnded {
+                                viewModel.addChipToBoard(chipColumn: col)
+                            }
                         }
                 }
             }
@@ -68,7 +70,7 @@ struct MainView: View {
                 .frame(maxWidth: .infinity)
                 
                 HStack(spacing: 2) {
-                    Text("0")
+                    Text(String(viewModel.redScore))
                         .fontWeight(.heavy)
                         .font(.system(size: 16, design: .monospaced))
                         .foregroundColor(Color("textColor"))
@@ -76,7 +78,7 @@ struct MainView: View {
                         .fontWeight(.heavy)
                         .font(.system(size: 16, design: .monospaced))
                         .foregroundColor(Color("textColor"))
-                    Text("0")
+                    Text(String(viewModel.yellowScore))
                         .fontWeight(.heavy)
                         .font(.system(size: 16, design: .monospaced))
                         .foregroundColor(Color("textColor"))

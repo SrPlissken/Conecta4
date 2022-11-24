@@ -269,4 +269,11 @@ class MainViewModel: ObservableObject {
         currentTurn = 0
     }
     
+    // Clean player scores
+    func resetPlayerScores() {
+        redScore = 0
+        yellowScore = 0
+        restartCurrentGame()
+    }
+    
 }

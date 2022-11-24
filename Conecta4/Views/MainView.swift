@@ -103,6 +103,7 @@ struct MainView: View {
             // Buttons zone
             HStack(spacing: 30){
                 Button(action: {
+                    // Restart current game
                     viewModel.restartCurrentGame()
                 }) {
                     HStack(spacing: 0) {
@@ -116,7 +117,10 @@ struct MainView: View {
                 .background(Color("bgButton"))
                 .cornerRadius(.infinity)
                 
-                Button(action: {}) {
+                Button(action: {
+                    // Clean current scores
+                    viewModel.resetPlayerScores()
+                }) {
                     HStack(spacing: 0) {
                         Image(systemName: "paintbrush")
                         Text("Clear")

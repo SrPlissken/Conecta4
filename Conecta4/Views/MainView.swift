@@ -39,9 +39,10 @@ struct MainView: View {
                 .frame(height: 10)
             
             // Chip entry
-            HStack(spacing: 32) {
+            HStack(spacing: 0) {
                 ForEach(0..<viewModel.BOARD_WIDTH, id:\.self) { col in
                     Image(systemName: "chevron.down")
+                        .frame(maxWidth: .infinity, maxHeight: 30)
                         .bold()
                         .onTapGesture {
                             // Add chip to board
@@ -53,7 +54,7 @@ struct MainView: View {
             }
                 .frame(maxWidth: .infinity)
                 .padding([.leading, .trailing], 18)
-                .padding([.bottom], -15)
+                .padding([.bottom], -25)
             
             // Board
             BoardTemplate(viewModel: viewModel)

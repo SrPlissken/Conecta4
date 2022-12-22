@@ -9,70 +9,40 @@ import Foundation
 import SwiftUI
 
 class MainViewModel: ObservableObject {
-    
-    // Define board size
-    let BOARD_WIDTH = 7
-    let BOARD_HEIGHT = 6
     // Max ocurrences for win
     let OCURRENCES_LIMIT = 4
     // Save game state
     var gameEnded = false
     
-    // Store current chip type and color
-    @Published var currentChipType = ChipType.red
-    @Published var currentChipColor: Color = Color("redChip")
-    
     // Track current tuen
     @Published var currentTurn: Int = 1
     
-    // Track player points
-    @Published var redScore = 0
-    @Published var yellowScore = 0
+    // Init board
+    @Published var gameBoard: Board = Board.init()
     
-    // Chip types
-    enum ChipType {
-        case red, yellow, empty
-    }
+    // Store current chip type and color
+    @Published var currentChipType = Chip.ChipType.red
+    @Published var currentChipColor: Color = Chip.ChipColor.redChipColor
     
-    // Board chip
-    @Published var board: [[ChipType]] = []
-    
-    // Constructor
-    init() {
-        initEmptyBoard()
-    }
-    
-    // Init an empty board
-    private func initEmptyBoard() {
-        // Start fill board with empty chips
-        for i in 0..<BOARD_HEIGHT {
-            board.append([ChipType]())
-            for _ in 0..<BOARD_WIDTH {
-                board[i].append(.empty)
-            }
-        }
-    }
-    
-    // Add chip to board
     func addChipToBoard(chipColumn: Int) {
         // Var control
         var isWin: Bool = false
         var allowSwap = false
-        for row in 0..<board.count {
+        for row in 0..<gameBoard.board.count {
             // Checks if there is a chip, then add chip on top
-            if row != 0 && board[row][chipColumn] != ChipType.empty {
+            if row != 0 && gameBoard.board[row][chipColumn] != Chip.ChipType.empty{
                 // First row cannot be filled if chip exist
-                if board[row - 1][chipColumn] != ChipType.empty {
+                if gameBoard.board[row - 1][chipColumn] != Chip.ChipType.empty {
                     break
                 }
-                board[row - 1][chipColumn] = currentChipType
+                gameBoard.board[row - 1][chipColumn] = currentChipType
                 isWin = checkWin(currentRow: row - 1, currentCol: chipColumn)
                 allowSwap = true
                 break
             }
             // Last row needs to filled with chip
-            else if row == board.count - 1 {
-                board[row][chipColumn] = currentChipType
+            else if row == gameBoard.board.count - 1 {
+                gameBoard.board[row][chipColumn] = currentChipType
                 isWin = checkWin(currentRow: row, currentCol: chipColumn)
                 allowSwap = true
             }
@@ -80,11 +50,11 @@ class MainViewModel: ObservableObject {
         // Check win or allow change
         if isWin {
             gameEnded = true
-            if currentChipType == .red {
-                redScore += 1
+            if currentChipType == Chip.ChipType.red {
+                gameBoard.playerList[0].playerScore += 1
             }
             else {
-                yellowScore += 1
+                gameBoard.playerList[1].playerScore += 1
             }
         }
         else if allowSwap{
@@ -92,17 +62,16 @@ class MainViewModel: ObservableObject {
         }
     }
     
-    // Swap chip turn
     func swapChipTurn() {
         switch(currentChipType) {
-        case .red:
-            currentChipType = .yellow
-            currentChipColor = Color("yellowChip")
-        case .yellow:
-            currentChipType = .red
-            currentChipColor = Color("redChip")
+        case Chip.ChipType.red:
+            currentChipType = gameBoard.playerList[1].selectedChipType
+            currentChipColor = gameBoard.playerList[1].selectedChipColor
+        case Chip.ChipType.yellow:
+            currentChipType = gameBoard.playerList[0].selectedChipType
+            currentChipColor = gameBoard.playerList[0].selectedChipColor
         default:
-            currentChipType = .red
+            currentChipType = gameBoard.playerList[0].selectedChipType
         }
         currentTurn += 1
     }
@@ -119,8 +88,8 @@ class MainViewModel: ObservableObject {
     // Check if player wins horizontal game
     func checkHorizontalWin(currentRow: Int) -> Bool {
         var ocurrences = 0
-        for element in 0..<board[currentRow].count {
-            if board[currentRow][element] != currentChipType {
+        for element in 0..<gameBoard.board[currentRow].count {
+            if gameBoard.board[currentRow][element] != currentChipType {
                 ocurrences = 0
                 continue
             }
@@ -138,8 +107,8 @@ class MainViewModel: ObservableObject {
     // Check if player wins vertical game
     func checkVerticalWin(currentRow: Int, currentCol: Int) -> Bool {
         var ocurrences = 0
-        for row in currentRow..<board.count {
-            if board[row][currentCol] != currentChipType {
+        for row in currentRow..<gameBoard.board.count {
+            if gameBoard.board[row][currentCol] != currentChipType {
                 ocurrences = 0
                 continue
             }
@@ -153,14 +122,14 @@ class MainViewModel: ObservableObject {
         }
         return false
     }
-    
+
     // Check if player wins with diagonal game
     func checkDiagonalWin(currentRow: Int, currentCol: Int) -> Bool {
         var matchCol = currentCol
         var ocurrences = 0
         // Start looking ascendant
         for row in (0...currentRow).reversed() {
-            if board[row][matchCol] != currentChipType {
+            if gameBoard.board[row][matchCol] != currentChipType {
                 matchCol += 1
                 break
             }
@@ -173,15 +142,15 @@ class MainViewModel: ObservableObject {
             }
             // Next col
             matchCol += 1
-            if matchCol > board[row].count - 1 {
+            if matchCol > gameBoard.board[row].count - 1 {
                 break
             }
         }
         
         // Start looking descendant
         matchCol = currentCol - 1
-        for row in currentRow + 1..<board.count {
-            if matchCol < 0 || board[row][matchCol] != currentChipType {
+        for row in currentRow + 1..<gameBoard.board.count {
+            if matchCol < 0 || gameBoard.board[row][matchCol] != currentChipType {
                 matchCol -= 1
                 break
             }
@@ -198,14 +167,14 @@ class MainViewModel: ObservableObject {
         
         return false
     }
-    
+
     // Check if player wins with inverse diagonal game
     func checkDiagonalWinInv(currentRow: Int, currentCol: Int) -> Bool {
         var matchCol = currentCol
         var ocurrences = 0
         // Start looking ascendant
         for row in (0...currentRow).reversed() {
-            if matchCol < 0 || board[row][matchCol] != currentChipType {
+            if matchCol < 0 || gameBoard.board[row][matchCol] != currentChipType {
                 matchCol -= 1
                 break
             }
@@ -221,15 +190,15 @@ class MainViewModel: ObservableObject {
         }
         
         // Start looking descendant
-        if currentCol != board[currentRow].count - 1 {
+        if currentCol != gameBoard.board[currentRow].count - 1 {
             matchCol = currentCol + 1
         }
         else {
             matchCol = currentCol
         }
         
-        for row in currentRow + 1..<board.count {
-            if board[row][matchCol] != currentChipType {
+        for row in currentRow + 1..<gameBoard.board.count {
+            if gameBoard.board[row][matchCol] != currentChipType {
                 matchCol += 1
                 break
             }
@@ -242,7 +211,7 @@ class MainViewModel: ObservableObject {
             }
             // Next col
             matchCol += 1
-            if matchCol > board[row].count - 1 {
+            if matchCol > gameBoard.board[row].count - 1 {
                 break
             }
         }
@@ -252,9 +221,8 @@ class MainViewModel: ObservableObject {
     
     // Allow to restart current game
     func restartCurrentGame() {
-        // Reset board
-        board = []
-        initEmptyBoard()
+        // Clean current board
+        gameBoard.cleanCurrentBoard()
         
         // If game ends, start next player
         if gameEnded {
@@ -262,18 +230,16 @@ class MainViewModel: ObservableObject {
             gameEnded = false
         }
         else {
-            currentChipType = .red
-            currentChipColor = Color("redChip")
+            currentChipType = Chip.ChipType.red
+            currentChipColor = Chip.ChipColor.redChipColor
         }
         // Reset turn
         currentTurn = 0
     }
     
-    // Clean player scores
+    // Init empty board and clean player scores
     func resetPlayerScores() {
-        redScore = 0
-        yellowScore = 0
-        restartCurrentGame()
+        gameBoard = Board.init()
     }
     
 }

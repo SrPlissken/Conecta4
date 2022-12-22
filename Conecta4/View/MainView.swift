@@ -40,7 +40,7 @@ struct MainView: View {
             
             // Chip entry
             HStack(spacing: 0) {
-                ForEach(0..<viewModel.BOARD_WIDTH, id:\.self) { col in
+                ForEach(0..<viewModel.gameBoard.BOARD_WIDTH, id:\.self) { col in
                     Image(systemName: "chevron.down")
                         .frame(maxWidth: .infinity, maxHeight: 30)
                         .bold()
@@ -71,7 +71,7 @@ struct MainView: View {
                 .frame(maxWidth: .infinity)
                 
                 HStack(spacing: 2) {
-                    Text(String(viewModel.redScore))
+                    Text(String(viewModel.gameBoard.playerList[0].playerScore))
                         .fontWeight(.heavy)
                         .font(.system(size: 16, design: .monospaced))
                         .foregroundColor(Color("textColor"))
@@ -79,7 +79,7 @@ struct MainView: View {
                         .fontWeight(.heavy)
                         .font(.system(size: 16, design: .monospaced))
                         .foregroundColor(Color("textColor"))
-                    Text(String(viewModel.yellowScore))
+                    Text(String(viewModel.gameBoard.playerList[1].playerScore))
                         .fontWeight(.heavy)
                         .font(.system(size: 16, design: .monospaced))
                         .foregroundColor(Color("textColor"))
@@ -164,20 +164,20 @@ struct BoardTemplate: View {
     
     var body: some View {
         Grid {
-            ForEach(0..<viewModel.board.count, id: \.self) { row in
+            ForEach(0..<viewModel.gameBoard.board.count, id: \.self) { row in
                 GridRow {
-                    ForEach(0..<viewModel.board[row].count, id:\.self) { col in
+                    ForEach(0..<viewModel.gameBoard.board[row].count, id:\.self) { col in
                         // Chip color selection
-                        switch viewModel.board[row][col] {
-                        case MainViewModel.ChipType.red:
+                        switch viewModel.gameBoard.board[row][col] {
+                        case Chip.ChipType.red:
                             Circle()
-                                .fill(Color("redChip"))
-                        case MainViewModel.ChipType.yellow:
+                                .fill(Chip.ChipColor.redChipColor)
+                        case Chip.ChipType.yellow:
                             Circle()
-                                .fill(Color("yellowChip"))
+                                .fill(Chip.ChipColor.yellowChipColor)
                         default:
                             Circle()
-                                .fill(Color("emptyChip"))
+                                .fill(Chip.ChipColor.emptyChipColor)
                         }
                     }
                 }

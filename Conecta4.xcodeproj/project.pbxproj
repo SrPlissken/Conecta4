@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		570B02F22953241C005F9F19 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570B02F12953241C005F9F19 /* Player.swift */; };
+		570B02F4295326E3005F9F19 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570B02F3295326E3005F9F19 /* Board.swift */; };
+		570B02F629533408005F9F19 /* Chip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570B02F529533408005F9F19 /* Chip.swift */; };
 		575B8CB828F4886C00286081 /* Conecta4App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575B8CB728F4886C00286081 /* Conecta4App.swift */; };
 		575B8CBA28F4886C00286081 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575B8CB928F4886C00286081 /* MainView.swift */; };
 		575B8CBC28F4886C00286081 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 575B8CBB28F4886C00286081 /* Assets.xcassets */; };
@@ -15,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		570B02F12953241C005F9F19 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		570B02F3295326E3005F9F19 /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
+		570B02F529533408005F9F19 /* Chip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chip.swift; sourceTree = "<group>"; };
 		575B8CB428F4886C00286081 /* Conecta4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Conecta4.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		575B8CB728F4886C00286081 /* Conecta4App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conecta4App.swift; sourceTree = "<group>"; };
 		575B8CB928F4886C00286081 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -34,6 +40,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		570B02F0295323EC005F9F19 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				570B02F12953241C005F9F19 /* Player.swift */,
+				570B02F3295326E3005F9F19 /* Board.swift */,
+				570B02F529533408005F9F19 /* Chip.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		575B8CAB28F4886C00286081 = {
 			isa = PBXGroup;
 			children = (
@@ -53,8 +69,9 @@
 		575B8CB628F4886C00286081 /* Conecta4 */ = {
 			isa = PBXGroup;
 			children = (
-				57A0EEA229255C8A00AB9DE1 /* ViewModels */,
-				57A0EEA129255C6B00AB9DE1 /* Views */,
+				570B02F0295323EC005F9F19 /* Model */,
+				57A0EEA229255C8A00AB9DE1 /* ViewModel */,
+				57A0EEA129255C6B00AB9DE1 /* View */,
 				575B8CB728F4886C00286081 /* Conecta4App.swift */,
 				575B8CBB28F4886C00286081 /* Assets.xcassets */,
 				575B8CBD28F4886C00286081 /* Preview Content */,
@@ -70,20 +87,20 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		57A0EEA129255C6B00AB9DE1 /* Views */ = {
+		57A0EEA129255C6B00AB9DE1 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				575B8CB928F4886C00286081 /* MainView.swift */,
 			);
-			path = Views;
+			path = View;
 			sourceTree = "<group>";
 		};
-		57A0EEA229255C8A00AB9DE1 /* ViewModels */ = {
+		57A0EEA229255C8A00AB9DE1 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				57A0EEA329255CAE00AB9DE1 /* MainViewModel.swift */,
 			);
-			path = ViewModels;
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,7 +173,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				570B02F22953241C005F9F19 /* Player.swift in Sources */,
+				570B02F629533408005F9F19 /* Chip.swift in Sources */,
 				575B8CBA28F4886C00286081 /* MainView.swift in Sources */,
+				570B02F4295326E3005F9F19 /* Board.swift in Sources */,
 				575B8CB828F4886C00286081 /* Conecta4App.swift in Sources */,
 				57A0EEA429255CAE00AB9DE1 /* MainViewModel.swift in Sources */,
 			);
